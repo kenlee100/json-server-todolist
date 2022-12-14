@@ -144,7 +144,14 @@ body {
   background: #eee;
   display: flex;
   color: #333;
-  background-image: linear-gradient(174deg, #ffd370 2%, #ffd370 46%, #ffffff 46%, #ffffff 100%, #e8e8e8 100%);
+  background-image: linear-gradient(
+    174deg,
+    #ffd370 2%,
+    #ffd370 46%,
+    #ffffff 46%,
+    #ffffff 100%,
+    #e8e8e8 100%
+  );
   letter-spacing: 0.07em;
 }
 
@@ -152,7 +159,7 @@ h1 {
   text-align: center;
   font-size: 3rem;
   margin-bottom: 1.5rem;
-  font-family: "Baloo Tamma 2";
+  font-family: 'Baloo Tamma 2';
   letter-spacing: 0.5rem;
   font-weight: bold;
 }
@@ -185,7 +192,7 @@ h1 {
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.15);
 }
 
-input[type=text] {
+input[type='text'] {
   width: 100%;
   border: 0;
   outline: 0;
@@ -194,11 +201,11 @@ input[type=text] {
   color: #333;
 }
 
-input[type=text]::-moz-placeholder {
+input[type='text']::-moz-placeholder {
   color: #9f9a91;
 }
 
-input[type=text]::placeholder {
+input[type='text']::placeholder {
   color: #9f9a91;
 }
 
@@ -230,12 +237,15 @@ input[type=text]::placeholder {
   text-align: center;
   color: #9f9a91;
   font-size: 14px;
+  list-style: none;
+  padding-left: 0;
 }
 
 .tab li {
   padding: 1rem;
   width: 100%;
   border-bottom: 2px solid #efefef;
+  cursor: pointer;
 }
 
 .tab li.active {
@@ -252,6 +262,11 @@ input[type=text]::placeholder {
   .cart_content {
     padding: 0.5rem 1rem 0.5rem 0.5rem;
   }
+}
+
+.list {
+  list-style: none;
+  padding-left: 0;
 }
 
 .list li {
@@ -277,7 +292,7 @@ input[type=text]::placeholder {
   width: 1rem;
   height: 1rem;
   background: #000;
-  background-image: url("https://i.imgur.com/7Q4RjFx.jpg");
+  background-image: url('https://i.imgur.com/7Q4RjFx.jpg');
   background-size: contain;
 }
 
@@ -349,7 +364,7 @@ input[type=text]::placeholder {
 }
 
 .checkbox span::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0.5rem;
   top: 50%;
@@ -363,7 +378,7 @@ input[type=text]::placeholder {
 }
 
 .checkbox span::after {
-  content: "";
+  content: '';
   position: absolute;
   left: 14px;
   top: 27%;
@@ -378,16 +393,16 @@ input[type=text]::placeholder {
   transition: 0.3s ease;
 }
 
-.checkbox input:checked~span {
+.checkbox input:checked ~ span {
   color: #9f9a91;
   text-decoration: line-through;
 }
 
-.checkbox input:checked~span::before {
+.checkbox input:checked ~ span::before {
   border-color: transparent;
   transform: translateY(-50%) scale(0);
 }
 
-.checkbox input:checked~span::after {
+.checkbox input:checked ~ span::after {
   opacity: 1;
 }
