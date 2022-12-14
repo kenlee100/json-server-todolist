@@ -126,6 +126,10 @@
   }
 }
 
+.flex-row {
+  flex-direction: row;
+}
+
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
@@ -223,9 +227,23 @@ input[type='text']::placeholder {
   height: 40px;
   border-radius: 10px;
   background: #333;
-  color: #fff;
   font-size: 2rem;
   text-decoration: none;
+  position: relative;
+}
+
+.btn_add::before,
+.btn_add::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 2px;
+  background-color: #fff;
+}
+
+.btn_add::after {
+  transform: rotate(90deg);
 }
 
 .card_list {
@@ -267,6 +285,7 @@ input[type='text']::placeholder {
 .list {
   list-style: none;
   padding-left: 0;
+  margin-bottom: 0;
 }
 
 .list li {
@@ -285,15 +304,35 @@ input[type='text']::placeholder {
   opacity: 0;
   right: 0;
   top: 50%;
-  transform: translateY(-50%);
   text-decoration: none;
   color: #333;
   display: block;
   width: 1rem;
   height: 1rem;
-  background: #000;
-  background-image: url('https://i.imgur.com/7Q4RjFx.jpg');
-  background-size: contain;
+  transform: rotate(45deg);
+}
+
+.list li a.delete::before,
+.list li a.delete::after {
+  content: '';
+  display: block;
+  position: absolute;
+  background-color: #000;
+}
+
+.list li a.delete::before {
+  width: 16px;
+  height: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.list li a.delete::after {
+  height: 16px;
+  width: 2px;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
 }
 
 @media (max-width: 575px) {
@@ -319,6 +358,10 @@ input[type='text']::placeholder {
 .list_footer a {
   color: #9f9a91;
   text-decoration: none;
+}
+
+.list_footer p {
+  margin: 0;
 }
 
 @media (max-width: 575px) {
