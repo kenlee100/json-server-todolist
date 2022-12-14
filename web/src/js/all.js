@@ -187,5 +187,6 @@ function removeItem(id) {
 }
 function init() {
   getDataList();
+  renderTabItem(currentTab);
 }
 init();
