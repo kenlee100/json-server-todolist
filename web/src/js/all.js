@@ -1,4 +1,4 @@
-const apiPath = "http://localhost:3000";
+const apiPath = "https://json-server-vercel-d36sid21k-kenlee100.vercel.app";
 const input = document.querySelector(".input input");
 const btn_add = document.querySelector(".btn_add");
 const list = document.querySelector(".list");
