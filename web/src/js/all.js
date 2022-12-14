@@ -6,6 +6,7 @@ const list_footer = document.querySelector('.list_footer');
 const tab = document.querySelector('.tab');
 let currentTab = '全部';
 let todoDataList = [];
+let stateData = [];
 btn_add.addEventListener('click', (e) => {
   e.preventDefault();
   enterItem();
@@ -22,10 +23,9 @@ input.addEventListener('keydown', (e) => {
 });
 
 list.addEventListener('click', (e) => {
-  e.preventDefault();
-
   // 刪除項目
   if (e.target.classList.contains('delete')) {
+    e.preventDefault();
     removeItem(e.target.dataset.id);
   }
 
@@ -35,18 +35,17 @@ list.addEventListener('click', (e) => {
   }
 });
 tab.addEventListener('click', (e) => {
-  let stateData = [];
   const tabText = e.target.textContent;
   let stateText = '待完成';
   switch (tabText) {
     case '待完成':
       currentTab = '待完成';
-      stateData = filterData(false);
+      stateData = filterData();
       break;
     case '已完成':
       stateText = '已完成';
       currentTab = '已完成';
-      stateData = filterData(true);
+      stateData = filterData();
       break;
     default:
       currentTab = '全部';
@@ -88,7 +87,8 @@ function getDataList() {
     .get(`${apiPath}/todos`)
     .then((res) => {
       todoDataList = res.data;
-      renderTodo(todoDataList);
+      // 使用篩選過的資料，確保 tab 在各個狀態下，更改todo狀態，不會跳回 '全部' 內容
+      renderTodo(filterData());
       renderFooter(filterData().length);
     })
     .catch((err) => {
@@ -97,13 +97,13 @@ function getDataList() {
 }
 
 // 篩選完成/已完成狀態
-function filterData(isCompleted) {
+function filterData(data) {
   return todoDataList.filter((item) => {
-    if (isCompleted === true) {
+    if (currentTab === '已完成') {
       return item.isCompleted === true;
-    } else if (isCompleted === false) {
+    } else if (currentTab === '待完成') {
       return item.isCompleted === false;
-    } else {
+    } else if (currentTab == '全部') {
       return item;
     }
   });
@@ -121,7 +121,7 @@ function renderFooter(data, state = '待完成') {
     e.preventDefault();
     const comfirmDialog = confirm('確認全部清除?');
     if (comfirmDialog) {
-      filterData(true).forEach((item) => {
+      filterData().forEach((item) => {
         removeItem(item.id);
       });
     }
@@ -129,6 +129,7 @@ function renderFooter(data, state = '待完成') {
 }
 // 顯示todo
 function renderTodo(data) {
+  console.log('renderTodo', data.length);
   let str = '';
   data.forEach((item) => {
     str += `
@@ -167,7 +168,6 @@ function updateItem(id, state) {
       isCompleted: state,
     })
     .then((res) => {
-      console.log('update', res);
       getDataList();
     })
     .catch((err) => {
@@ -178,7 +178,6 @@ function removeItem(id) {
   axios
     .delete(`${apiPath}/todos/${id}`)
     .then((res) => {
-      console.log(res);
       getDataList();
     })
     .catch((err) => {
