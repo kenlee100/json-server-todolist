@@ -40,7 +40,7 @@ list.addEventListener('click', (e) => {
 });
 tab.addEventListener('click', (e) => {
   const tabText = e.target.textContent;
-  let stateText = '待完成';
+  let stateText = '';
   switch (tabText) {
     case '待完成':
       currentTab = '待完成';
@@ -57,7 +57,7 @@ tab.addEventListener('click', (e) => {
       break;
   }
   renderTabItem(currentTab);
-  renderFooter(stateData.length, stateText);
+  renderFooter(stateData, stateText);
   renderTodo(stateData);
 });
 
@@ -85,15 +85,36 @@ function renderTabItem(currentTab) {
   });
   tab.innerHTML = str;
 }
+// loading callback
+function progress(res, callback) {
+  if (res.status === 200) {
+    callback(res);
+    setTimeout(() => {
+      loadingStatus(false);
+    }, 500);
+  }
+}
+// 讀取畫面與狀態
+function loadingStatus(isShow) {
+  const loading = document.querySelector('.loading');
+  if (isShow) {
+    loading.classList.add('-show');
+  } else {
+    loading.classList.remove('-show');
+  }
+}
 
 function getDataList() {
+  loadingStatus(true);
   axios
     .get(`${apiPath}/todos`)
     .then((res) => {
-      todoDataList = res.data;
-      // 使用篩選過的資料，確保 tab 在各個狀態下，更改todo狀態，不會跳回 '全部' 內容
-      renderTodo(filterData());
-      renderFooter(filterData().length);
+      progress(res, () => {
+        todoDataList = res.data;
+        // 使用篩選過的資料，確保 tab 在各個狀態下，更改todo狀態，不會跳回 '全部' 內容
+        renderTodo(filterData());
+        renderFooter(filterData());
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -112,24 +133,37 @@ function filterData(data) {
     }
   });
 }
-function renderFooter(data, state = '待完成') {
-  let str = `
-    <p>${data} 個${state}項目</p>
-    <a href="#" class="clear-btn">清除已完成項目</a>
-  `;
-  list_footer.innerHTML = str;
-  const clearBtn = document.querySelector('.clear-btn');
-
-  // 清除已完成項目
-  clearBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const comfirmDialog = confirm('確認全部清除?');
-    if (comfirmDialog) {
-      filterData().forEach((item) => {
-        removeItem(item.id);
-      });
-    }
+function renderFooter(data, state = '全部') {
+  const isCompletedData = data.filter((item) => {
+    return !item.isCompleted;
   });
+  if (
+    (state === '已完成' && isCompletedData !== 0) ||
+    (state === '全部' && isCompletedData !== 0)
+  ) {
+    let str = `
+      <p>${isCompletedData.length} 個待完成項目</p>
+      <a href="#" class="clear-btn">清除已完成項目</a>
+    `;
+    list_footer.innerHTML = str;
+    const clearBtn = document.querySelector('.clear-btn');
+
+    // 清除已完成項目
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const comfirmDialog = confirm('確認全部清除?');
+      if (comfirmDialog) {
+        filterData().forEach((item) => {
+          removeItem(item.id);
+        });
+      }
+    });
+  } else {
+    let str = `
+      <p>${isCompletedData.length} 個待完成項目</p>
+    `;
+    list_footer.innerHTML = str;
+  }
 }
 // 顯示todo
 function renderTodo(data) {
