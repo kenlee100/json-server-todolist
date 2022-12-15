@@ -1,6 +1,6 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 @import url('https://fonts.googleapis.com/earlyaccess/notosanstc.css');
 @import url('https://fonts.googleapis.com/css?family=Baloo+Tamma+2:600, 700');
@@ -12,12 +12,11 @@
 html {
   font-size: 16px;
   -webkit-tap-highlight-color: transparent;
+  height: 100%;
 }
 
 body {
-  min-height: 100vh;
   background: #eee;
-  display: flex;
   color: #333;
   background-image: linear-gradient(
     174deg,
@@ -28,6 +27,9 @@ body {
     #e8e8e8 100%
   );
   letter-spacing: 0.07em;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 h1 {
@@ -49,7 +51,10 @@ h1 {
 .container {
   margin: 3rem auto 1.5rem auto;
   padding: 0 12px;
-  width: 500px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 @media (max-width: 575px) {
@@ -83,6 +88,7 @@ input[type='text']::placeholder {
 .input {
   padding: 4px 4px 4px 1rem;
   display: flex;
+  flex-direction: row;
 }
 
 .btn_add {
@@ -94,13 +100,28 @@ input[type='text']::placeholder {
   height: 40px;
   border-radius: 10px;
   background: #333;
-  color: #fff;
   font-size: 2rem;
   text-decoration: none;
+  position: relative;
 }
-
+.btn_add:hover {
+  background-color: #272727;
+}
+.btn_add::before,
+.btn_add::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 2px;
+  background-color: #fff;
+}
+.btn_add::after {
+  transform: rotate(90deg);
+}
 .card_list {
   padding: 0;
+  overflow: hidden;
 }
 
 .tab {
@@ -126,7 +147,9 @@ input[type='text']::placeholder {
 }
 
 .cart_content {
-  padding: 0.5rem 1rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 @media (max-width: 575px) {
@@ -136,7 +159,10 @@ input[type='text']::placeholder {
 }
 .list {
   list-style: none;
-  padding-left: 0;
+  margin-bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0.5rem 1rem 1rem 1rem;
 }
 .list li {
   position: relative;
@@ -152,24 +178,40 @@ input[type='text']::placeholder {
 .list li a.delete {
   position: absolute;
   opacity: 0;
-  right: 0;
+  right: 6px;
   top: 50%;
-  transform: translateY(-50%);
   text-decoration: none;
   color: #333;
   display: block;
   width: 1rem;
   height: 1rem;
-  background: #000;
-  background-image: url('https://i.imgur.com/7Q4RjFx.jpg');
-  background-size: contain;
+  transform: rotate(45deg);
+  margin-top: -6px;
+}
+.list li a.delete::before,
+.list li a.delete::after {
+  content: '';
+  display: block;
+  position: absolute;
+  background-color: #000;
+}
+.list li a.delete::before {
+  width: 16px;
+  height: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.list li a.delete::after {
+  height: 16px;
+  width: 2px;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
 }
 
 @media (max-width: 575px) {
   .list li a.delete {
     opacity: 1;
-    width: 12px;
-    height: 12px;
   }
 }
 
@@ -181,13 +223,17 @@ input[type='text']::placeholder {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem 2rem 1rem 0.5rem;
+  padding: 1.5rem 2rem 1rem 1.5rem;
   font-size: 14px;
+  flex-shrink: 0;
 }
 
 .list_footer a {
   color: #9f9a91;
   text-decoration: none;
+}
+.list_footer p {
+  margin: 0;
 }
 
 @media (max-width: 575px) {
@@ -272,4 +318,53 @@ input[type='text']::placeholder {
 
 .checkbox input:checked ~ span::after {
   opacity: 1;
+}
+
+/* loading */
+.loading {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255 255 255 / 60%);
+  z-index: 1000;
+}
+.loading.-show {
+  display: flex;
+}
+.loader {
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+.loader::after,
+.loader::before {
+  content: '';
+  box-sizing: border-box;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: animloader 2s linear infinite;
+}
+.loader::after {
+  animation-delay: 1s;
+}
+
+@keyframes animloader {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
 }
