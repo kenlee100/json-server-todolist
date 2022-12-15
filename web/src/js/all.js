@@ -52,6 +52,7 @@ tab.addEventListener('click', (e) => {
       stateData = filterData();
       break;
     default:
+      stateText = '全部';
       currentTab = '全部';
       stateData = filterData();
       break;
@@ -194,7 +195,6 @@ function addItem(content) {
       isCompleted: false,
     })
     .then((res) => {
-      console.log(res);
       getDataList();
     })
     .catch((err) => {
