@@ -16,7 +16,6 @@ html {
 }
 
 body {
-      
   background: #eee;
   color: #333;
   background-image: linear-gradient(
@@ -29,8 +28,8 @@ body {
   );
   letter-spacing: 0.07em;
   display: flex;
-    flex-direction: column;
-    height: 100%;
+  flex-direction: column;
+  height: 100%;
 }
 
 h1 {
@@ -54,8 +53,8 @@ h1 {
   padding: 0 12px;
   max-width: 500px;
   display: flex;
-    flex-direction: column;
-    overflow: hidden;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 @media (max-width: 575px) {
@@ -122,7 +121,7 @@ input[type='text']::placeholder {
 }
 .card_list {
   padding: 0;
-        overflow: hidden;
+  overflow: hidden;
 }
 
 .tab {
@@ -148,10 +147,9 @@ input[type='text']::placeholder {
 }
 
 .cart_content {
-  padding: 0.5rem 1rem 1rem 1rem;
-      display: flex;
-        flex-direction: column;
-        overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 @media (max-width: 575px) {
@@ -161,8 +159,10 @@ input[type='text']::placeholder {
 }
 .list {
   list-style: none;
-  padding-left: 0;
   margin-bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0.5rem 1rem 1rem 1rem;
 }
 .list li {
   position: relative;
@@ -178,7 +178,7 @@ input[type='text']::placeholder {
 .list li a.delete {
   position: absolute;
   opacity: 0;
-  right: 0;
+  right: 6px;
   top: 50%;
   text-decoration: none;
   color: #333;
@@ -223,8 +223,9 @@ input[type='text']::placeholder {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem 2rem 1rem 0.5rem;
+  padding: 1.5rem 2rem 1rem 1.5rem;
   font-size: 14px;
+  flex-shrink: 0;
 }
 
 .list_footer a {

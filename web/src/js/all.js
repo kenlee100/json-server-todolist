@@ -14,7 +14,11 @@ btn_add.addEventListener('click', (e) => {
 function enterItem() {
   const val = input.value;
   input.value = '';
-  addItem(val);
+  if (val.trim() !== '') {
+    addItem(val);
+  } else {
+    alert('請輸入內容');
+  }
 }
 input.addEventListener('keydown', (e) => {
   if (e.keyCode === 13) {
